@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Submission</title>
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Component -->
+    <header class="student-header">
+        <div class="logo">
+            <h1>Assignment Portal</h1>
+            <p>Group Leader Dashboard</p>
+        </div>
+        <nav>
+            <ul>
+                <li class="active"><a href="submission.html"><i class="fas fa-upload"></i> Submit Assignment</a></li>
+                <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="student-container">
+        <section class="assignment-submission">
+            <div class="submission-header">
+                <h2><i class="fas fa-file-upload"></i> Assignment Submission</h2>
+                <div class="submission-status">
+                    <span id="status-indicator" class="status-pending">Status: Not Submitted</span>
+                </div>
+            </div>
+
+            <div class="submission-guidelines">
+                <h3><i class="fas fa-info-circle"></i> Submission Guidelines</h3>
+                <ul>
+                    <li>Only group leaders can submit assignments</li>
+                    <li>Include all group member names in the table below</li>
+                    <li>Accepted file formats: PDF, DOCX, PPTX, ZIP (max 10MB)</li>
+                    <li>Deadline: <span id="deadline-date">June 30, 2023 11:59 PM</span></li>
+                </ul>
+            </div>
+
+            <form id="submission-form">
+                <div class="form-group">
+                    <label for="assignment-title">Assignment Title</label>
+                    <input type="text" id="assignment-title" required placeholder="Enter assignment title">
+                </div>
+
+                <div class="form-group">
+                    <label>Group Members</label>
+                    <div class="members-table-container">
+                        <table id="members-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Full Name</th>
+                                    <th>Student ID</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="text" class="member-name" required placeholder="Full name"></td>
+                                    <td><input type="text" class="member-id" placeholder="Student ID"></td>
+                                    <td><input type="email" class="member-email" placeholder="Email"></td>
+                                    <td><button type="button" class="btn btn-icon remove-member" disabled><i class="fas fa-times"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="button" id="add-member-btn" class="btn btn-secondary"><i class="fas fa-plus"></i> Add Member</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="assignment-file">Upload Assignment File</label>
+                    <div class="file-upload-container">
+                        <input type="file" id="assignment-file" required accept=".pdf,.doc,.docx,.ppt,.pptx,.zip">
+                        <label for="assignment-file" class="file-upload-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="file-name">Choose a file...</span>
+                        </label>
+                        <div class="file-requirements">
+                            <p>Max file size: 10MB | Accepted formats: PDF, DOCX, PPTX, ZIP</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="additional-notes">Additional Notes (Optional)</label>
+                    <textarea id="additional-notes" rows="3" placeholder="Any additional information about your submission..."></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="save-draft-btn" class="btn btn-secondary"><i class="fas fa-save"></i> Save Draft</button>
+                    <button type="submit" id="submit-btn" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit Assignment</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Submission Confirmation Modal -->
+        <div id="confirmation-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div class="modal-icon success">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Submission Successful!</h3>
+                <div class="modal-body">
+                    <p>Your assignment has been submitted successfully.</p>
+                    <div class="submission-details">
+                        <p><strong>Assignment Title:</strong> <span id="confirmation-title"></span></p>
+                        <p><strong>Group Members:</strong> <span id="confirmation-members"></span></p>
+                        <p><strong>Submission Date:</strong> <span id="confirmation-date"></span></p>
+                    </div>
+                    <p>A confirmation email has been sent to your registered email address.</p>
+                </div>
+                <div class="modal-actions">
+                    <button id="confirmation-close" class="btn btn-primary">Close</button>
+                    <button id="download-receipt-btn" class="btn btn-secondary"><i class="fas fa-download"></i> Download Receipt</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Draft Saved Modal -->
+        <div id="draft-modal" class="modal">
+            <div class="modal-content small">
+                <div class="modal-icon info">
+                    <i class="fas fa-save"></i>
+                </div>
+                <h3>Draft Saved</h3>
+                <p>Your progress has been saved successfully.</p>
+                <div class="modal-actions">
+                    <button id="draft-close" class="btn btn-primary">Continue Editing</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script type="module" src="../../scripts/firebase/config.js"></script>
+    <script type="module" src="../../scripts/firebase/db.js"></script>
+    <script type="module" src="../../scripts/firebase/storage.js"></script>
+    <script type="module" src="../../scripts/student/submission.js"></script>
+    <script type="module" src="../../scripts/student/group.js"></script>
+    <script type="module" src="../../scripts/auth/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Submission Portal</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header/Navigation -->
+    <header id="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1><i class="fas fa-book-open"></i> Assignment Portal</h1>
+            </div>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="#" id="home-link">Home</a></li>
+                    <li><a href="#" id="login-link" class="auth-link">Login</a></li>
+                    <li><a href="#" id="signup-link" class="auth-link">Sign Up</a></li>
+                    <li id="dashboard-link" style="display: none;"><a href="#">Dashboard</a></li>
+                    <li id="logout-link" style="display: none;"><a href="#">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content">
+        <div class="container">
+            <!-- Content will be dynamically loaded here -->
+            <section id="welcome-section">
+                <h2>Welcome to the Assignment Submission Portal</h2>
+                <p>Submit your assignments, manage your group, and track your submissions all in one place.</p>
+                <div class="cta-buttons">
+                    <button id="welcome-login" class="btn btn-primary">Login</button>
+                    <button id="welcome-signup" class="btn btn-secondary">Sign Up</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="main-footer">
+        <div class="container">
+            <p>&copy; 2023 Assignment Submission Portal. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="scripts/firebase/config.js"></script>
+    <script src="scripts/auth/auth.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

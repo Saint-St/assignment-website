@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - User Management</title>
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Component -->
+    <header class="admin-header">
+        <div class="logo">
+            <h1>Assignment Portal</h1>
+            <p>Admin Dashboard</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li class="active"><a href="users.html"><i class="fas fa-users"></i> Users</a></li>
+                <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="admin-container">
+        <section class="admin-content">
+            <div class="content-header">
+                <h2>User Management</h2>
+                <div class="actions">
+                    <button id="export-users-btn" class="btn btn-primary">
+                        <i class="fas fa-file-excel"></i> Export to Excel
+                    </button>
+                    <div class="search-box">
+                        <input type="text" id="user-search" placeholder="Search users...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="filter-submissions">Submissions:</label>
+                    <select id="filter-submissions">
+                        <option value="all">All Users</option>
+                        <option value="submitted">Submitted Assignments</option>
+                        <option value="not-submitted">Not Submitted</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sort-by">Sort by:</label>
+                    <select id="sort-by">
+                        <option value="name-asc">Name (A-Z)</option>
+                        <option value="name-desc">Name (Z-A)</option>
+                        <option value="date-asc">Registration Date (Oldest)</option>
+                        <option value="date-desc">Registration Date (Newest)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table id="users-table">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Group Members</th>
+                            <th>Submission Status</th>
+                            <th>Submission Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-list">
+                        <!-- Users will be loaded dynamically via JavaScript -->
+                        <tr class="loading-row">
+                            <td colspan="7">
+                                <div class="loading-spinner"></div>
+                                <p>Loading users...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <button id="prev-page" disabled><i class="fas fa-chevron-left"></i> Previous</button>
+                <span id="page-info">Page 1 of 1</span>
+                <button id="next-page" disabled>Next <i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+    </main>
+
+    <!-- User Details Modal -->
+    <div id="user-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>User Details</h3>
+            <div class="modal-body">
+                <div class="user-info">
+                    <div class="info-row">
+                        <span class="info-label">Username:</span>
+                        <span id="modal-username" class="info-value">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span id="modal-email" class="info-value">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Registered:</span>
+                        <span id="modal-registered" class="info-value">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Last Login:</span>
+                        <span id="modal-last-login" class="info-value">-</span>
+                    </div>
+                </div>
+
+                <div class="submission-info">
+                    <h4>Assignment Submission</h4>
+                    <div class="info-row">
+                        <span class="info-label">Status:</span>
+                        <span id="modal-status" class="info-value">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Submission Date:</span>
+                        <span id="modal-submission-date" class="info-value">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Group Members:</span>
+                        <div id="modal-group-members" class="group-members-list">
+                            <!-- Group members will be listed here -->
+                        </div>
+                    </div>
+                    <div class="info-row actions">
+                        <button id="download-assignment-btn" class="btn btn-primary" disabled>
+                            <i class="fas fa-download"></i> Download Assignment
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content small">
+            <h3 id="confirm-title">Confirm Action</h3>
+            <p id="confirm-message">Are you sure you want to perform this action?</p>
+            <div class="modal-actions">
+                <button id="confirm-cancel" class="btn btn-secondary">Cancel</button>
+                <button id="confirm-action" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../assets/js/xlsx.full.min.js"></script>
+    <script type="module" src="../../scripts/firebase/config.js"></script>
+    <script type="module" src="../../scripts/firebase/db.js"></script>
+    <script type="module" src="../../scripts/firebase/storage.js"></script>
+    <script type="module" src="../../scripts/admin/users.js"></script>
+    <script type="module" src="../../scripts/auth/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Assignment Submission Portal</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header/Navigation -->
+    <header id="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1><i class="fas fa-book-open"></i> Admin Portal</h1>
+            </div>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="users.html"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="submissions.html"><i class="fas fa-file-upload"></i> Submissions</a></li>
+                    <li><a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    <li id="user-profile">
+                        <img id="user-avatar" src="../assets/images/admin-avatar.png" alt="Admin Avatar">
+                        <span id="username-display">Admin</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Admin Sidebar -->
+    <aside id="admin-sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-user-shield"></i> Admin Menu</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="#" class="active">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="users.html">
+                        <i class="fas fa-users-cog"></i> User Management
+                    </a>
+                </li>
+                <li>
+                    <a href="submissions.html">
+                        <i class="fas fa-clipboard-check"></i> Submissions
+                    </a>
+                </li>
+                <li>
+                    <a href="assignments.html">
+                        <i class="fas fa-tasks"></i> Assignments
+                    </a>
+                </li>
+                <li>
+                    <a href="reports.html">
+                        <i class="fas fa-chart-bar"></i> Reports
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="main-content">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <section class="dashboard-header">
+                <h2><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h2>
+                <div class="dashboard-actions">
+                    <button id="generate-report-btn" class="btn btn-primary">
+                        <i class="fas fa-file-excel"></i> Export Report
+                    </button>
+                </div>
+            </section>
+
+            <!-- Stats Cards -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total Users</h3>
+                        <span class="stat-value" id="total-users">0</span>
+                    </div>
+                    <div class="stat-footer">
+                        <a href="users.html">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-upload"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Submissions</h3>
+                        <span class="stat-value" id="total-submissions">0</span>
+                    </div>
+                    <div class="stat-footer">
+                        <a href="submissions.html">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Graded</h3>
+                        <span class="stat-value" id="graded-submissions">0</span>
+                    </div>
+                    <div class="stat-footer">
+                        <a href="submissions.html?status=graded">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Pending</h3>
+                        <span class="stat-value" id="pending-submissions">0</span>
+                    </div>
+                    <div class="stat-footer">
+                        <a href="submissions.html?status=pending">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Submissions -->
+            <section class="recent-submissions">
+                <div class="section-header">
+                    <h3><i class="fas fa-history"></i> Recent Submissions</h3>
+                    <a href="submissions.html" class="btn btn-secondary">View All</a>
+                </div>
+                
+                <div class="table-responsive">
+                    <table id="submissions-table" class="table hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Group Leader</th>
+                                <th>Assignment</th>
+                                <th>Members</th>
+                                <th>Submitted</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Recent Users -->
+            <section class="recent-users">
+                <div class="section-header">
+                    <h3><i class="fas fa-user-plus"></i> Recently Registered</h3>
+                    <a href="users.html" class="btn btn-secondary">View All</a>
+                </div>
+                
+                <div class="table-responsive">
+                    <table id="users-table" class="table hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Registered</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="main-footer">
+        <div class="container">
+            <p>&copy; 2023 Assignment Submission Portal. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- JavaScript Files -->
+    <script src="../scripts/firebase/config.js"></script>
+    <script src="../scripts/firebase/db.js"></script>
+    <script src="../scripts/auth/auth.js"></script>
+    <script src="../scripts/admin/dashboard.js"></script>
+    <script src="../scripts/admin/reports.js"></script>
+</body>
+</html>

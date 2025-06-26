@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error | Assignment Submission Portal</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/error.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-content">
+            <!-- Animated error icon -->
+            <div class="error-icon">
+                <div class="error-animation">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="error-pulse"></div>
+                </div>
+            </div>
+            
+            <h1 id="error-title">Oops! Something went wrong</h1>
+            <p id="error-message">We're sorry, but we encountered an unexpected error while processing your request.</p>
+            
+            <div class="error-details" id="error-details">
+                <p><strong>Error Code:</strong> <span id="error-code">404</span></p>
+                <p><strong>Description:</strong> <span id="error-description">Page not found</span></p>
+            </div>
+            
+            <div class="error-actions">
+                <a href="../index.html" class="btn btn-primary">
+                    <i class="fas fa-home"></i> Return Home
+                </a>
+                <button id="reload-btn" class="btn btn-secondary">
+                    <i class="fas fa-sync-alt"></i> Try Again
+                </button>
+                <a href="mailto:support@assignments.edu?subject=Error Report" class="btn btn-text">
+                    <i class="fas fa-envelope"></i> Report Problem
+                </a>
+            </div>
+            
+            <div class="error-help">
+                <h3>Need help?</h3>
+                <p>If the problem persists, please contact our support team:</p>
+                <ul>
+                    <li><i class="fas fa-phone"></i> Support: (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> Email: support@assignments.edu</li>
+                    <li><i class="fas fa-clock"></i> Hours: Mon-Fri, 9AM-5PM</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../scripts/utils/errorHandler.js"></script>
+    <script>
+        // Parse any error information from URL parameters
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const code = params.get('code') || '404';
+            const message = params.get('message') || 'Page not found';
+            const details = params.get('details') || 'The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.';
+
+            document.getElementById('error-code').textContent = code;
+            document.getElementById('error-description').textContent = details;
+            
+            // Update title and message based on error code
+            const errorTitle = document.getElementById('error-title');
+            const errorMessage = document.getElementById('error-message');
+            
+            switch(code) {
+                case '403':
+                    errorTitle.textContent = 'Access Denied';
+                    errorMessage.textContent = 'You do not have permission to access this page.';
+                    break;
+                case '500':
+                    errorTitle.textContent = 'Server Error';
+                    errorMessage.textContent = 'Our servers encountered an unexpected error.';
+                    break;
+                case '503':
+                    errorTitle.textContent = 'Service Unavailable';
+                    errorMessage.textContent = 'The service is temporarily unavailable. Please try again later.';
+                    break;
+                case '400':
+                    errorTitle.textContent = 'Bad Request';
+                    errorMessage.textContent = 'Your request could not be processed.';
+                    break;
+            }
+
+            // Reload button functionality
+            document.getElementById('reload-btn').addEventListener('click', function() {
+                window.location.reload();
+            });
+        });
+    </script>
+</body>
+</html>

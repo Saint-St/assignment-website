@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Assignment Submission Portal</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header/Navigation -->
+    <header id="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1><i class="fas fa-book-open"></i> Assignment Portal</h1>
+            </div>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="#" id="logout-link">Logout</a></li>
+                    <li id="user-profile">
+                        <img id="user-avatar" src="../assets/images/default-avatar.png" alt="User Avatar">
+                        <span id="username-display">Loading...</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <section class="dashboard-header">
+                <h2><i class="fas fa-tachometer-alt"></i> Assignment Dashboard</h2>
+                <div class="dashboard-actions">
+                    <button id="new-submission-btn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> New Submission
+                    </button>
+                </div>
+            </section>
+
+            <!-- Submission Form (Initially Hidden) -->
+            <section id="submission-form" class="card hidden">
+                <div class="card-header">
+                    <h3><i class="fas fa-file-upload"></i> Submit New Assignment</h3>
+                    <button id="close-form-btn" class="btn btn-icon">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <form id="assignment-form">
+                        <div class="form-group">
+                            <label for="assignment-name">Assignment Name</label>
+                            <input type="text" id="assignment-name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="assignment-description">Description</label>
+                            <textarea id="assignment-description" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Group Members</label>
+                            <div class="members-management">
+                                <div class="input-group">
+                                    <input type="text" id="member-name" placeholder="Member Name">
+                                    <input type="email" id="member-email" placeholder="Member Email">
+                                    <button type="button" id="add-member-btn" class="btn btn-secondary">
+                                        <i class="fas fa-user-plus"></i> Add
+                                    </button>
+                                </div>
+                                
+                                <div class="members-list-container">
+                                    <table id="members-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Members will be added here dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="assignment-file">Upload Assignment</label>
+                            <div class="file-upload-container">
+                                <input type="file" id="assignment-file" class="file-input" accept=".pdf,.doc,.docx,.zip,.rar">
+                                <label for="assignment-file" class="file-upload-label">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span id="file-name">Choose a file...</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Submit Assignment
+                            </button>
+                            <button type="button" id="cancel-submission" class="btn btn-secondary">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Previous Submissions -->
+            <section class="submissions-history">
+                <h3><i class="fas fa-history"></i> Submission History</h3>
+                
+                <div class="filter-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-submissions" placeholder="Search submissions...">
+                    </div>
+                    <select id="filter-status">
+                        <option value="all">All Statuses</option>
+                        <option value="submitted">Submitted</option>
+                        <option value="graded">Graded</option>
+                        <option value="late">Late</option>
+                    </select>
+                </div>
+                
+                <div class="submissions-list">
+                    <div class="submission-item card">
+                        <div class="submission-header">
+                            <h4>Advanced Web Development Project</h4>
+                            <span class="status-badge submitted">Submitted</span>
+                        </div>
+                        <div class="submission-details">
+                            <p><strong>Submitted:</strong> <span class="date">May 15, 2023</span></p>
+                            <p><strong>Group Members:</strong> 4</p>
+                            <p><strong>File:</strong> web-project-final.zip</p>
+                        </div>
+                        <div class="submission-actions">
+                            <button class="btn btn-icon">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn btn-icon">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- More submission items will be loaded dynamically -->
+                </div>
+                
+                <div class="pagination-controls">
+                    <button class="btn btn-secondary" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <span class="page-info">Page 1 of 1</span>
+                    <button class="btn btn-secondary" disabled>
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="main-footer">
+        <div class="container">
+            <p>&copy; 2023 Assignment Submission Portal. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="../scripts/firebase/config.js"></script>
+    <script src="../scripts/firebase/db.js"></script>
+    <script src="../scripts/firebase/storage.js"></script>
+    <script src="../scripts/auth/auth.js"></script>
+    <script src="../scripts/student/submission.js"></script>
+    <script src="../scripts/student/group.js"></script>
+    <script src="../scripts/dashboard.js"></script>
+</body>
+</html>
