@@ -1,25 +1,25 @@
 // src/scripts/main.js
 
 // Import Firebase services
-import { auth, db, storage } from './firebase/config';
+import { auth, db, storage } from '/src/scripts/firebase/config';
 import { 
   onAuthStateChanged, 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword,
   signOut
-} from "firebase/auth";
+} from "/src/scripts/firebase/auth";
 import { 
   addUser, 
   getUser, 
   submitAssignment, 
   getAllSubmissions,
   isAdmin
-} from './firebase/db';
+} from '/src/scripts/firebase/db';
 import { 
   uploadFile, 
   validateFileType, 
   validateFileSize 
-} from './firebase/storage';
+} from '/src/scripts/firebase/storage';
 import { generateExcel } from './utils/excel';
 
 // DOM Elements
